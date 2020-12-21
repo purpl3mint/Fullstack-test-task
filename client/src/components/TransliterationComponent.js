@@ -30,7 +30,7 @@ export const Transliteration = () => {
 
     const recievingHistoryHandler = async () => {
         try {
-            const data = await request(`/history?size=${amount}`, 'GET');
+            const data = await request(`/history?n=${amount}`, 'GET');
             setHistory(data.data);
             setStatus('OK');
         } catch (err) {

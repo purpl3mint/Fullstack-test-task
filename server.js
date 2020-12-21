@@ -30,7 +30,7 @@ app.post('/api', (req, res) => {
 });
 
 app.get('/history', async (req, res) => {
-    const size = req.query['size'];
+    const size = req.query['n'];
     let result = [];
     let count = 0;
 
