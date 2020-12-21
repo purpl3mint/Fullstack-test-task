@@ -29,9 +29,11 @@ app.post('/api', (req, res) => {
 
 });
 
-app.get('/history?:size', (req, res) => {
-    const size = req.params.size;
-    let result = [];
+app.get('/history', (req, res) => {
+    const size = req.query['size'];
+    const result = [];
+
+    console.log(size);
 
     let stream = db.createReadStream({
         reverse: true,
@@ -40,7 +42,8 @@ app.get('/history?:size', (req, res) => {
 
 
     stream.on('data', function(record){
-        result.push(record.value);
+        console.log(record['value']);
+        result.push(record['value']);
     });
 
     if (result === []) return res.status(500).json({'message': 'Записи не найдены'});
