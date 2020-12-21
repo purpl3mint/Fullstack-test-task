@@ -29,24 +29,29 @@ app.post('/api', (req, res) => {
 
 });
 
-app.get('/history', (req, res) => {
+app.get('/history', async (req, res) => {
     const size = req.query['size'];
-    const result = [];
+    let result = [];
+    let count = 0;
 
-    console.log(size);
-
-    let stream = db.createReadStream({
+    const stream = db.createReadStream({
         reverse: true,
         limit: size
     });
 
+    await new Promise((resolve, reject) => {
+        stream.on('data', (record) => {
+            if (count++ < size) {
+                result.push(record['value']);
+            }
+        });
 
-    stream.on('data', function(record){
-        console.log(record['value']);
-        result.push(record['value']);
+        stream.on('end', resolve);
+        stream.on('error', reject);
     });
 
-    if (result === []) return res.status(500).json({'message': 'Записи не найдены'});
+    if (result.length === 0) return res.status(500).json({'message': 'Записи не найдены'});
 
     return res.status(200).json({'data': result});
+
 });

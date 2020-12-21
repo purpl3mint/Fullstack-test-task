@@ -1,10 +1,10 @@
 import './App.css';
-import {TransliterationComponent} from './components/TransliterationComponent';
+import {Transliteration} from './components/TransliterationComponent';
 
 function App() {
   return (
     <div className="container">
-      <TransliterationComponent />
+      <Transliteration />
     </div>
   );
 }
